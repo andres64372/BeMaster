@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universidad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+    <div class='container text-center my-3'>
+        <h1>Bienvenido a tu universidad en linea</h1>
+    </div>
+
+    <div class='container'>
+        <form method="POST" enctype="multipart/form-data" action="registro">
+            <label>Nombre</label>
+            <select id="nombre" class="form-select my-3" name="nombre" aria-label="Default select example">
+    
+            </select>
+            <label>Carrera</label>
+            <select id="carrera" class="form-select my-3" name="carrera" aria-label="Default select example">
+    
+            </select>
+            <label>Curso</label>
+            <select id="clase" class="form-select my-3" name="clase" aria-label="Default select example">
+    
+            </select>
+            <label>Mentor</label>
+            <select id="mentor" class="form-select my-3" name="mentor" aria-label="Default select example">
+    
+            </select>
+        </form>
+        <button id="boton" type="button" class="btn btn-primary">Inscribir</button>
+    </div>
+    <div class='container text-center my-3'>
+        <a href="/lista">Ver cursos</a>
+    </div>
+</body>
+<script>
+    var nombre = document.getElementById("nombre");
+    var carrera = document.getElementById("carrera");
+    var clase = document.getElementById("clase");
+    var mentor = document.getElementById("mentor");
+    var boton = document.getElementById("boton");
+    carrera.setAttribute("disabled", "disabled");
+    clase.setAttribute("disabled", "disabled");
+    clase.setAttribute("disabled", "disabled");
+    mentor.setAttribute("disabled", "disabled");
+    boton.setAttribute("disabled", "disabled");
+
+    window.onload = function(){
+        clase.setAttribute("disabled", "disabled");
+        mentor.setAttribute("disabled", "disabled");
+        carrera.setAttribute("disabled", "disabled");
+        boton.setAttribute("disabled", "disabled");
+        while (nombre.options.length) {
+            nombre.options.remove(0);
+        }
+        const xhr = new XMLHttpRequest();
+        xhr.open("get","{{url_for('nombre')}}");
+        xhr.addEventListener("load", function(data){
+            var resp = JSON.parse(data.target.response);
+            for(const index of resp){
+                var c = document.createElement("option");
+                c.text=index.nombre;
+                nombre.options.add(c,0);
+            }
+        });
+        xhr.send();
+    }
+    nombre.onclick = function(){
+        clase.setAttribute("disabled", "disabled");
+        mentor.setAttribute("disabled", "disabled");
+        boton.setAttribute("disabled", "disabled");
+        while (carrera.options.length) {
+            carrera.options.remove(0);
+        }
+        const xhr = new XMLHttpRequest();
+        xhr.open("get","{{url_for('carreras')}}");
+        xhr.addEventListener("load", function(data){
+            var resp = JSON.parse(data.target.response);
+            for(const index of resp){
+                var c = document.createElement("option");
+                c.text=index.carrera;
+                carrera.options.add(c,0);
+            }
+            carrera.removeAttribute("disabled");
+        });
+        xhr.send();
+    }
+
+    carrera.onclick = function(){
+        clase.setAttribute("disabled", "disabled");
+        mentor.setAttribute("disabled", "disabled");
+        boton.setAttribute("disabled", "disabled");
+        while (clase.options.length) {
+            clase.options.remove(0);
+        }
+        const xhr = new XMLHttpRequest();
+        const form = new FormData();
+        form.append("carrera",carrera.value)
+        xhr.open("post","{{url_for('clases')}}");
+        xhr.addEventListener("load", function(data){
+            var resp = JSON.parse(data.target.response);
+            for(const index of resp){
+                var c = document.createElement("option");
+                c.text=index.clase;
+                clase.options.add(c,0);
+            }
+            clase.removeAttribute("disabled");
+        });
+        xhr.send(form);
+    }
+    clase.onclick = function(){
+        mentor.setAttribute("disabled", "disabled");
+        boton.setAttribute("disabled", "disabled");
+        while (mentor.options.length) {
+            mentor.options.remove(0);
+        }
+        const xhr = new XMLHttpRequest();
+        const form = new FormData();
+        form.append("clase",clase.value)
+        xhr.open("post","{{url_for('mentores')}}");
+        xhr.addEventListener("load", function(data){
+            var resp = JSON.parse(data.target.response);
+            for(const index of resp){
+                var c = document.createElement("option");
+                c.text=index.mentor;
+                mentor.options.add(c,0);
+            }
+            mentor.removeAttribute("disabled");
+            boton.removeAttribute("disabled");
+        });
+        xhr.send(form);
+    }
+    boton.onclick = function(){
+        const xhr = new XMLHttpRequest();
+        const form = new FormData();
+        form.append("nombre",nombre.value);
+        form.append("carrera",carrera.value);
+        form.append("clase",clase.value);
+        form.append("mentor",mentor.value);
+        xhr.open("post","{{url_for('registro')}}");
+        xhr.addEventListener("load", function(data){
+            var resp = JSON.parse(data.target.response);
+            if(resp.existe){
+                alert("El estudiante ya ha sido registrado");
+            }
+            else{
+                alert("Registro exitoso")
+            }
+        });
+        xhr.send(form); 
+    }
+
+</script>
+</html>

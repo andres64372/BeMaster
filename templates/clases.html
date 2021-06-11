@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center my-3">
+        <h1>Cursos disponibles</h1>
+    </div>
+    <div class="container my-3">
+        {% for i in range(leng)-%}
+        <div class="container text-center my-3">
+            <h2>Carrera de {{carreras[i]}}</h2>
+        </div>
+        {% for j in clase[i] -%}
+        <div class="card my-3" style="width: 18rem;">
+            <img src="https://bemaster.com/wp-content/uploads/2020/11/Logo_BeMaster_Fondo_Negro-Destacado.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{j}}</h5>
+              <a href="/cursos/{{j}}" class="btn btn-primary">Ir</a>
+            </div>
+          </div>
+        {% endfor -%}
+        {% endfor -%}
+    </div>
+    
+
+</body>
+</html>

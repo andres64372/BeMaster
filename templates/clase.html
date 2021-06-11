@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>{{clase}}</title>
+</head>
+<body>
+    <div class="container my-3">
+        <h1>Curso de {{clase}}</h1>
+        <div class="col-12 col-sm-6">
+            <div>
+                <h2>Mentores</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <th scope="col"></th>
+                        <th scope="col">Mentor</th>
+                    </thead>
+                    <tbody>
+                        {% for i in mentores -%}
+                        <tr>  
+                            <th scope="row">1</th>
+                            <td>{{i}}</td>
+                        </tr>
+                        {% endfor -%}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h2>Alumnos</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <th scope="col"></th>
+                        <th scope="col">Estudiante</th>
+                        <th scope="col">Eliminar</th>
+                    </thead>
+                    <tbody>
+                        {% for i in alumnos -%}
+                        <tr>  
+                            <th scope="row">1</th>
+                            <td>{{i[1]}}</td>
+                            <td><a href="/borrar/{{clase}}/{{i[0]}}"><button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>"></button></a></td>
+                        </tr>
+                        {% endfor -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
